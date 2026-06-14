@@ -1,0 +1,322 @@
+/* ==========================================================================
+   1. 기본 스타일 초기화 및 전체 화면 설정
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    color: #fff;
+    overflow: hidden; 
+    background-color: #111;
+}
+
+.slide-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: relative;
+    padding: 2.5vw 4vw; 
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   2. COVER PAGE (메인 표지 스타일)
+   ========================================================================== */
+.cover-bg {
+    background-color: #c2bebc; 
+    color: #000;
+    align-items: center;
+    justify-content: space-between;
+}
+.cover-left {
+    width: 44%;
+    height: 100%;
+    max-height: 80vh;
+    border: 2px solid #000;
+}
+.cover-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.cover-right {
+    width: 50%;
+    height: 100%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.cover-title-wrap {
+    border-top: 4px solid #000;
+    border-bottom: 2px solid #000;
+    padding: 1.5vw 0;
+}
+.main-title {
+    font-size: 4.5vw;
+    font-weight: 900;
+    color: #634731;
+    line-height: 1.1;
+    float: left;
+    margin-right: 2vw;
+}
+.sub-title-wrap {
+    overflow: hidden;
+}
+.sub-title-1 {
+    font-size: 2vw;
+    font-weight: bold;
+    letter-spacing: -1px;
+    margin-bottom: 0.5vw;
+    white-space: nowrap;
+}
+.sub-title-2 {
+    font-size: 1.3vw;
+    color: #333;
+    white-space: nowrap;
+}
+.eng-title {
+    font-size: 1.5vw;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    margin-top: 1.5vw;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.cover-menu {
+    margin-top: auto;
+    margin-bottom: 2vw;
+    list-style: none;
+}
+.cover-menu li {
+    margin-bottom: 1vw;
+}
+.cover-menu a {
+    font-size: 1.8vw;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+}
+.cover-menu a:hover {
+    color: #634731;
+    transform: translateX(10px);
+}
+
+/* ==========================================================================
+   3. CONTENTS PAGES (연도별 슬라이드 공통 스타일)
+   ========================================================================== */
+.content-page {
+    flex-direction: column;
+    justify-content: space-between; 
+}
+.page-header {
+    width: 100%;
+}
+.page-year {
+    font-size: 2.2vw;
+    font-weight: bold;
+    margin-bottom: 0.3vw;
+}
+.page-concept {
+    font-size: 1.5vw;
+    font-weight: bold;
+    margin-bottom: 1.5vw;
+}
+.page-concept span {
+    color: #fffb00;
+}
+
+/* 이미지 그리드 영역 */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1.6vw; /* 🌟 간격을 조금 더 넓혀서 그림자가 보일 공간을 확보 */
+    width: 100%;
+    height: 52vh; 
+    margin-bottom: 1.5vw;
+    min-height: 0;
+    perspective: 1000px; /* 🌟 그리드 전체에 3D 원근감 환경 조성 */
+}
+
+/* 🌟 기본 이미지 박스: 입체감 대폭 강화 */
+.img-box {
+    background-color: #333;
+    border: 1px solid #444;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    /* 🌟 변화를 아주 부드럽고 쫀득하게 만드는 transition */
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s ease;
+    will-change: transform, box-shadow;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 평소에도 살짝 바닥에 떠 있는 느낌 */
+}
+
+/* 🌟 마우스 올렸을 때: 화면 앞으로 확 튀어나오는 초강력 3D 효과 */
+.img-box:hover {
+    /* 🌟 앞으로 튀어나오면서(translateZ) 위로 살짝 이동(translateY) */
+    transform: translateY(-12px) translateZ(20px) scale(1.04); 
+    /* 🌟 바닥에 짙고 거대하게 깔리는 다크 입체 그림자 + 테두리 자체 발광 효과 */
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.7), 0 15px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255,255,255,0.15); 
+    border-color: #fff; /* 테두리가 하얗게 빛나서 시선 집중 */
+    z-index: 999; /* 튀어나온 사진이 무조건 맨 위로 레이어 배치 */
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease; /* 사진 알맹이도 반응하도록 설정 */
+}
+
+/* 마우스 올렸을 때 사진 자체도 아주 미세하게 확대되어 역동성 추가 */
+.img-box:hover img {
+    transform: scale(1.02);
+}
+
+/* 그리드 병합 클래스들 */
+.grid-col-2 { grid-column: span 2; }
+.grid-col-3 { grid-column: span 3; }
+.grid-row-2 { grid-row: span 2; }
+
+/* 하단 푸터 영역 */
+.page-footer {
+    width: 100%;
+    font-size: 1.3vw;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.4;
+    height: 5vh; 
+}
+.back-to-home {
+    font-size: 0.9vw;
+    color: #aaa;
+    text-decoration: none;
+    border: 1px solid #aaa;
+    padding: 0.3vw 0.7vw;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.back-to-home:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* ==========================================================================
+   4. 각 연도별 개별 테마 설정 및 디자인 변형
+   ========================================================================== */
+
+/* --- 1970년대 (블랙) --- */
+.bg-1970 { background-color: #141414; }
+.highlight-blue { color: #00bfff; }
+
+/* --- 1980년대 (진회색) --- */
+.bg-1980 { background-color: #5b6166; }
+.bg-1980 .page-concept span { color: #2ecc71; }
+.footer-right { font-family: monospace; border: 1px solid #fff; padding: 0.2vw 0.5vw; white-space: nowrap; }
+.bg-1980 .neon-text { color: #fffb00; font-size: 1.1vw; font-weight: bold; text-align: left; white-space: nowrap; }
+
+/* --- 1990년대 (민트그레이) --- */
+.bg-1990 { background-color: #9cb3a8; color: #000; }
+.bg-1990 .img-box { background-color: #ccc; border: 1px solid #888; }
+.bg-1990 .back-to-home { color: #333; border-color: #333; }
+
+/* 90년대 오일쇼크 문구: 사진 오른쪽 옆으로 배치 */
+.img-box-with-text-side { 
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+    gap: 0.8vw; 
+    background-color: transparent; 
+    height: 100%; 
+    max-height: 24vh; 
+    overflow: hidden; 
+}
+.img-box-with-text-side .side-img-area { 
+    width: 45%; 
+    height: 100%; 
+    border: 1px solid #999; 
+    background-color: #ccc; 
+    overflow: hidden; 
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+/* 90년대 사이드 이미지 전용 극적 Hover 효과 */
+.img-box-with-text-side .side-img-area:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    border-color: #333;
+}
+.img-box-with-text-side .side-img-area img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+.img-box-with-text-side .side-text-area { 
+    width: 55%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    text-align: left; 
+}
+.bg-1990 .neon-sub-text { font-size: 0.85vw; color: #222; margin-bottom: 0.2vw; white-space: nowrap; }
+.bg-1990 .neon-main-text { font-size: 1.05vw; font-weight: bold; color: #b22222; line-height: 1.3; white-space: nowrap; }
+.bg-1990 .kfc-text { color: #000; font-size: 1.1vw; font-weight: bold; text-align: left; padding-left: 2px; white-space: nowrap; height: 1.5vw; }
+
+/* --- 2000년대 (화이트) --- */
+.bg-2000 { background-color: #ffffff; color: #000; }
+.bg-2000 .img-box { background-color: #eee; border: 1px solid #ccc; }
+.model-purple { color: #673ab7; font-weight: bold; }
+.bg-2000 .back-to-home { color: #333; border-color: #333; }
+.bg-2000 .neon-pink-text { color: #ff0000; font-size: 1.1vw; font-weight: bold; text-align: left; }
+.bg-2000 .model-purple-text { color: #673ab7; font-size: 1.1vw; font-weight: bold; text-align: left; }
+.bg-2000 .page-concept span { color: #673ab7; }
+
+/* ==========================================================================
+   5. 이미지 밑에 글씨가 딸린 레이아웃 공통 스타일 (80년대, 90년대KFC, 00년대 공용)
+   ========================================================================== */
+.img-box-with-text { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    height: 100%; 
+    overflow: hidden; 
+}
+
+/* 🌟 사진 영역: 강력한 3D 바운스 효과 탑재 */
+.img-box-with-text .img-area { 
+    flex: 1; 
+    min-height: 0;
+    border: 1px solid #555; 
+    background-color: #ccc; 
+    overflow: hidden; 
+    margin-bottom: 0.5vw; 
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+/* 🌟 사진 영역 마우스 올렸을 때 (Hover) */
+.img-box-with-text .img-area:hover {
+    transform: translateY(-12px) translateZ(20px) scale(1.04);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.6), 0 15px 12px rgba(0, 0, 0, 0.45), 0 0 15px rgba(255,255,255,0.15); 
+    border-color: #fff;
+    z-index: 999;
+}
+.img-box-with-text .img-area img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease;
+}
+.img-box-with-text .img-area:hover img {
+    transform: scale(1.02);
+}
